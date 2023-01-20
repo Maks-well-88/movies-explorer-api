@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
 const { createUser, login } = require('../controllers/users');
+const userRouter = require('./users');
 const auth = require('../middlewares/auth');
 const constants = require('../utils/constants');
 const NotFoundError = require('../errors/notFoundError');
@@ -28,6 +29,7 @@ router.post(
   createUser,
 );
 
+router.use('/users', auth, userRouter);
 router.use('*', auth, (req, res, next) => next(new NotFoundError(constants.NOT_FOUND_PAGE)));
 
 module.exports = router;

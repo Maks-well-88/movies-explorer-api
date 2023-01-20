@@ -5,6 +5,7 @@ const constants = require('../utils/constants');
 const NotAuthError = require('../errors/notAuthError');
 const ConflictError = require('../errors/conflictError');
 const BadRequestError = require('../errors/badRequestError');
+const NotFoundError = require('../errors/notFoundError');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -58,7 +59,40 @@ const login = async (req, res, next) => {
   }
 };
 
+const getMe = async (req, res, next) => {
+  try {
+    const user = await userModel.findById(req.user._id);
+    if (!user) {
+      return next(new NotFoundError(constants.NOT_FOUND_MESSAGE));
+    }
+    return res.status(constants.OK).send(user);
+  } catch (error) {
+    return next(error);
+  }
+};
+
+const updateProfile = async (req, res, next) => {
+  try {
+    const user = await userModel.findByIdAndUpdate(
+      req.user._id,
+      { name: req.body.name, email: req.body.about },
+      { new: true, runValidators: true },
+    );
+    if (!user) {
+      return next(new NotFoundError(constants.NOT_FOUND_MESSAGE));
+    }
+    return res.status(constants.OK).send(user);
+  } catch (error) {
+    if (error.name === 'ValidationError' || error.name === 'CastError') {
+      return next(new BadRequestError(`${Object.values(error.errors).map((err) => err.message).join(', ')}`));
+    }
+    return next(error);
+  }
+};
+
 module.exports = {
   createUser,
   login,
+  getMe,
+  updateProfile,
 };
