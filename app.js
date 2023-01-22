@@ -9,7 +9,7 @@ const router = require('./routes/index');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const app = express();
-const { PORT = 3000 } = process.env;
+const { DB_LOCATION, PORT = 3000 } = process.env;
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -27,7 +27,7 @@ app.use(errorLogger);
 app.use(errors());
 app.use(errorHandler);
 
-mongoose.connect('mongodb://localhost:27017/bitfilmsdb', (err) => {
+mongoose.connect(DB_LOCATION, (err) => {
   if (err) throw err;
   console.log('Connected to MongoDB');
 });
