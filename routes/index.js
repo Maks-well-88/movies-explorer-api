@@ -7,11 +7,11 @@ const constants = require('../utils/constants');
 const { signinValidation, signupValidation } = require('../utils/validation');
 const NotFoundError = require('../errors/notFoundError');
 
-router.post('/signin', signinValidation, login);
-router.post('/signup', signupValidation, createUser);
+router.post('/api/signin', signinValidation, login);
+router.post('/api/signup', signupValidation, createUser);
 
-router.use('/users', auth, userRouter);
-router.use('/movies', auth, movieRouter);
+router.use('/api/users', auth, userRouter);
+router.use('/api/movies', auth, movieRouter);
 router.use('*', auth, (req, res, next) => next(new NotFoundError(constants.NOT_FOUND_PAGE)));
 
 module.exports = router;
