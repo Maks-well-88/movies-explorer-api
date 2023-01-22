@@ -7,9 +7,11 @@ const rateLimit = require('express-rate-limit');
 const errorHandler = require('./middlewares/error');
 const router = require('./routes/index');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const { DB_SRC_PUBLIC } = require('./utils/config');
 
 const app = express();
-const { DB_LOCATION, PORT = 3000 } = process.env;
+const { NODE_ENV, DB_LOCATION, PORT = 3000 } = process.env;
+const dbLocation = NODE_ENV === 'production' ? DB_LOCATION : DB_SRC_PUBLIC;
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -27,7 +29,7 @@ app.use(errorLogger);
 app.use(errors());
 app.use(errorHandler);
 
-mongoose.connect(DB_LOCATION, (err) => {
+mongoose.connect(dbLocation, (err) => {
   if (err) throw err;
   console.log('Connected to MongoDB');
 });

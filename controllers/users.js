@@ -6,8 +6,10 @@ const NotAuthError = require('../errors/notAuthError');
 const ConflictError = require('../errors/conflictError');
 const BadRequestError = require('../errors/badRequestError');
 const NotFoundError = require('../errors/notFoundError');
+const { JWT_PUBLIC } = require('../utils/config');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
+const key = NODE_ENV === 'production' ? JWT_SECRET : JWT_PUBLIC;
 
 const createUser = async (req, res, next) => {
   try {
@@ -42,11 +44,7 @@ const login = async (req, res, next) => {
         next(new NotAuthError(constants.NO_ACCESS_MESSAGE));
         return;
       }
-      const token = jwt.sign(
-        { _id: user._id },
-        NODE_ENV === 'production' ? JWT_SECRET : 'secret-key',
-        { expiresIn: '7d' },
-      );
+      const token = jwt.sign({ _id: user._id }, key, { expiresIn: '7d' });
       res.status(constants.OK).send({ token });
       return;
     }

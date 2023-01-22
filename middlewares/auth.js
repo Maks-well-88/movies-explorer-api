@@ -2,8 +2,10 @@ const jwt = require('jsonwebtoken');
 const constants = require('../utils/constants');
 require('dotenv').config();
 const NotAuthError = require('../errors/notAuthError');
+const { JWT_PUBLIC } = require('../utils/config');
 
-const { JWT_SECRET = 'secret-key' } = process.env;
+const { NODE_ENV, JWT_SECRET } = process.env;
+const key = NODE_ENV === 'production' ? JWT_SECRET : JWT_PUBLIC;
 
 const auth = (req, res, next) => {
   const { authorization } = req.headers;
@@ -13,7 +15,7 @@ const auth = (req, res, next) => {
   const token = authorization.replace('Bearer ', '');
   let payload;
   try {
-    payload = jwt.verify(token, JWT_SECRET);
+    payload = jwt.verify(token, key);
   } catch (err) {
     return next(new NotAuthError(constants.AUTH_MESSAGE));
   }
