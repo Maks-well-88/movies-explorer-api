@@ -3,8 +3,7 @@ const constants = require('../utils/constants');
 require('dotenv').config();
 const NotAuthError = require('../errors/notAuthError');
 
-// перед продакшн забирать секретный код из окружения
-const JWT_SECRET = 'secret-key';
+const { JWT_SECRET = 'secret-key' } = process.env;
 
 const auth = (req, res, next) => {
   const { authorization } = req.headers;
