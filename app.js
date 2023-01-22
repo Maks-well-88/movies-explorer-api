@@ -27,7 +27,7 @@ app.use(errorLogger);
 app.use(errors());
 app.use(errorHandler);
 
-mongoose.connect('mongodb://localhost:27017/mestodb', (err) => {
+mongoose.connect('mongodb://localhost:27017/bitfilmsdb', (err) => {
   if (err) throw err;
   console.log('Connected to MongoDB');
 });
