@@ -15,20 +15,7 @@ const getMovies = async (req, res, next) => {
 
 const createMovie = async (req, res, next) => {
   try {
-    const movie = await movieModel.create({
-      country: req.body.country,
-      director: req.body.director,
-      duration: req.body.duration,
-      year: req.body.year,
-      description: req.body.description,
-      image: req.body.image,
-      trailerLink: req.body.trailerLink,
-      thumbnail: req.body.thumbnail,
-      owner: req.user._id,
-      movieId: req.body.movieId,
-      nameRU: req.body.nameRU,
-      nameEN: req.body.nameEN,
-    });
+    const movie = await movieModel.create({ ...req.body, owner: req.user._id });
     const movieWithOwner = await movie.populate('owner');
     return res.status(constants.CREATED).send(movieWithOwner);
   } catch (error) {
