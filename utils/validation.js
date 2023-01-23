@@ -15,7 +15,7 @@ const signupValidation = celebrate({
   }),
 });
 
-const getMeValidation = celebrate({
+const updateProfileValidation = celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
     name: Joi.string().required().min(2).max(30),
@@ -47,7 +47,7 @@ const deleteMovieValidation = celebrate({
 module.exports = {
   signinValidation,
   signupValidation,
-  getMeValidation,
+  updateProfileValidation,
   createMovieValidation,
   deleteMovieValidation,
 };
