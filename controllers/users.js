@@ -73,7 +73,7 @@ const updateProfile = async (req, res, next) => {
   try {
     const user = await userModel.findByIdAndUpdate(
       req.user._id,
-      { name: req.body.name, email: req.body.about },
+      { name: req.body.name, email: req.body.email },
       { new: true, runValidators: true },
     );
     if (!user) {
@@ -81,6 +81,9 @@ const updateProfile = async (req, res, next) => {
     }
     return res.status(constants.OK).send(user);
   } catch (error) {
+    if (error.code === 11000) {
+      return next(new ConflictError(constants.ALREADY_EXISTS_MESSAGE));
+    }
     if (error.name === 'ValidationError' || error.name === 'CastError') {
       return next(new BadRequestError(`${Object.values(error.errors).map((err) => err.message).join(', ')}`));
     }
