@@ -5,7 +5,7 @@ const { errors } = require('celebrate');
 const helmet = require('helmet');
 const limiter = require('./utils/limiter');
 const errorHandler = require('./middlewares/error');
-const router = require('./routes/index');
+const router = require('./routes');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { DB_SRC_PUBLIC } = require('./utils/config');
 
