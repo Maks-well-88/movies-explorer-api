@@ -48,7 +48,8 @@ const login = async (req, res, next) => {
       res.status(constants.OK).send({ token });
       return;
     }
-    if (!user) next(new NotAuthError(constants.NO_ACCESS_MESSAGE));
+    next(new NotAuthError(constants.NO_ACCESS_MESSAGE));
+    return;
   } catch (error) {
     next(error);
   }
