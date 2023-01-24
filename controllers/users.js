@@ -25,7 +25,7 @@ const createUser = async (req, res, next) => {
     if (error.code === 11000) {
       return next(new ConflictError(constants.ALREADY_EXISTS_MESSAGE));
     }
-    if (error.name === 'ValidationError' || error.name === 'CastError') {
+    if (error.name === 'ValidationError') {
       return next(
         new BadRequestError(`${Object.values(error.errors).map((err) => err.message).join(', ')}`),
       );
@@ -50,9 +50,6 @@ const login = async (req, res, next) => {
     }
     if (!user) next(new NotAuthError(constants.NO_ACCESS_MESSAGE));
   } catch (error) {
-    if (error.name === 'ValidationError' || error.name === 'CastError') {
-      next(new BadRequestError(`${Object.values(error.errors).map((err) => err.message).join(', ')}`));
-    }
     next(error);
   }
 };

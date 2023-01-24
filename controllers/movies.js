@@ -19,7 +19,7 @@ const createMovie = async (req, res, next) => {
     const movieWithOwner = await movie.populate('owner');
     return res.status(constants.CREATED).send(movieWithOwner);
   } catch (error) {
-    if (error.name === 'ValidationError' || error.name === 'CastError') {
+    if (error.name === 'ValidationError') {
       return next(new BadRequestError(`${Object.values(error.errors).map((err) => err.message).join(', ')}`));
     }
     return next(error);
