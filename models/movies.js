@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { regexp } = require('../utils/regex');
 
 const movieSchema = new mongoose.Schema({
   country: {
@@ -24,14 +25,32 @@ const movieSchema = new mongoose.Schema({
   image: {
     type: String,
     required: true,
+    validate: {
+      validator(v) {
+        return regexp.urlCheck.test(v);
+      },
+      message: 'Url is not correct',
+    },
   },
   trailerLink: {
     type: String,
     required: true,
+    validate: {
+      validator(v) {
+        return regexp.urlCheck.test(v);
+      },
+      message: 'Url is not correct',
+    },
   },
   thumbnail: {
     type: String,
     required: true,
+    validate: {
+      validator(v) {
+        return regexp.urlCheck.test(v);
+      },
+      message: 'Url is not correct',
+    },
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,

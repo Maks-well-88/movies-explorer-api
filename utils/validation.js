@@ -1,16 +1,17 @@
 const { celebrate, Joi } = require('celebrate');
+const { regexp } = require('./regex');
 
 const signinValidation = celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
-    password: Joi.string().required().min(6),
+    password: Joi.string().required(),
   }),
 });
 
 const signupValidation = celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
-    password: Joi.string().required().min(6),
+    password: Joi.string().required(),
     name: Joi.string().required().min(2).max(30),
   }),
 });
@@ -29,9 +30,9 @@ const createMovieValidation = celebrate({
     duration: Joi.number().required(),
     year: Joi.string().required(),
     description: Joi.string().required(),
-    image: Joi.string().required(),
-    trailerLink: Joi.string().required(),
-    thumbnail: Joi.string().required(),
+    image: Joi.string().required().regex(regexp.urlCheck),
+    trailerLink: Joi.string().required().regex(regexp.urlCheck),
+    thumbnail: Joi.string().required().regex(regexp.urlCheck),
     movieId: Joi.number().required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),

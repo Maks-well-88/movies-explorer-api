@@ -16,8 +16,6 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     select: false,
-    minlength: 6,
-    maxlength: 60,
     required: true,
   },
   name: {
