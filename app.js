@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const limiter = require('./utils/limiter');
 const errorHandler = require('./middlewares/error');
 const router = require('./routes');
+const cors = require('./middlewares/cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { DB_SRC_PUBLIC } = require('./utils/config');
 
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use(helmet());
 app.use(requestLogger);
 app.use(limiter);
+app.use(cors);
 app.use(router);
 app.use(errorLogger);
 app.use(errors());
