@@ -1,6 +1,6 @@
 const allowedCors = [
-  'https://cool-mesto.students.nomoredomains.club',
-  'http://cool-mesto.students.nomoredomains.club',
+  'https://deep-frontend.nomoredomains.rocks/',
+  'http://deep-frontend.nomoredomains.rocks/',
   'http://localhost:3001',
 ];
 
